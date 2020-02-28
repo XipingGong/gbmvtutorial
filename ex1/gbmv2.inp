@@ -37,7 +37,7 @@ close unit 10
 ! Nonbond cutoff
 !---------------------------------------------------------------
 NBOND atom switch cdie vdw vswitch -
-   ctonnb 16.0 ctofnb 16.0 cutnb 20.0
+   ctonnb 16.0 ctofnb 18.0 cutnb 20.0
 
 ! GB implicit solvent model?
 !---------------------------------------------------------------
