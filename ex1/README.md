@@ -127,16 +127,25 @@ will not run the CUDA-GBMV calculations. Please see the input provided in this e
 I highly suggest you use the following GBMV setting, "OMM" command must be after "GBMV" command.
 
 --------------------------------------------------------------------------
+
 ! setup the input radii for GBMV calculations.
+
 set wmain radii
+
 stream radii_c36gbmvop.str
+
 ! set up CUDA-GBMV parameters
+
 GBMV BETA -12  P3 0.65 WATR 1.4  SHIFT -0.102 SLOPE 0.9085  P6 8 SA 0.005 -
+
      WTYP 2 NPHI 26 CUTNUM 50 KAPPA 0.0 weight
 
 ! OpenMM omm setting
+
 omm platform CUDA precision single deviceid 0
+
 omm on
+
 --------------------------------------------------------------------------
 
 ## Reference
