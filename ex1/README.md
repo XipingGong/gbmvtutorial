@@ -5,6 +5,7 @@ Author: Xiping Gong, PhD student, UMass Amherst
 Email:  xipinggong@umass.edu
 
 Date:   12/13/2019 (Xiping; first version)
+Date:   09/12/2020 (Xiping)
 
 ============================================
 
@@ -13,8 +14,8 @@ Date:   12/13/2019 (Xiping; first version)
 
 ## Executable CHARMM (included GBMV2)
 
-Before running the following the examples, please install the 
-CHARMM with GPU-GBMV2 plugin (version > c45). Also, please run a 
+Before running the following the examples, please install the
+CHARMM with GPU-GBMV2 plugin (version > c45). Also, please run a
 test file included to make sure your installation is correct.
 
 
@@ -22,7 +23,9 @@ test file included to make sure your installation is correct.
 
 CHARMM='the path of an executable CHARMM program'
 
-E.g., CHARMM='/home/ping/share/charmm/build/c42vbx/charmm'
+E.g., CHARMM='/home/ping/share/charmm_latest/build/c45by/charmm'
+
+0. An autorun.sh bash shell script provided for the following commands
 
 1. **CPU**
 
@@ -59,7 +62,7 @@ The similar errors can be found in the vacuum calculations.
 
 3. Energy conservation (CPU vs. GPU)
 
-$ grep "DYNA>" cpuGbmv2.out 
+$ grep "DYNA>" cpuGbmv2.out
 $ grep "DYNA>" gpuGbmv2.out
 
 ""
@@ -77,7 +80,7 @@ Please change the keyword SA. Do you know which energy term the SA represents?
 
 2. How to run the CPU/GPU-GBMV2 simulations with ion effects?
 
-Tips> please look at the meaning of KAPPA keyword and play with it, 
+Tips> please look at the meaning of KAPPA keyword and play with it,
 does it have the same meaning as that of [GBSW model][GBSW website]?
 
 3. What are meanings of these parameters (BETA, P3, WATR, SHIFT, SLOPE, P6, WTYP, NPHI, etc.)?
@@ -98,18 +101,39 @@ Please look at the input file given and descriptions of OpenMM in CHARMM website
 Tips> Four PDB files can be found in the current directory.
 Also, please record the simulations time and compare cpu and gpu performance.
 
+7. How to comfirm that the CUDA-GBMV was used correctly?
+
+Tips> 1, CUDA-GBMV should be much faster than CPU-GBMV calculations;
+2, the keyword "CHARMM> Only OpenMM CUDA platform available for GBMV method" can be searched
+in your output, which means CUDA-GBMV was called.
+3, compare the CPU- and CUDA-GBMV energy, make sure that there is no big difference between them.
+
+8. Extra points for CUDA-GBMV calculations
+
+* using the attached radii_c36gbmvop.str as a default radius input, which is optimized.
+* GPU-GBMV does not work for energy minimization, you can minimize the structures using CPU-GBMV.
+* It is a good choice to check the GPU and CPU energy before running the dynamics.
+
+## Common questions
+
+1. I cannot find out the keyword "CHARMM> Only OpenMM CUDA platform available for GBMV method" in the output.
+
+One potential point is that you set up the "OMM" command before "GBMV" command.
+Because when running the "OMM" command, the OpenMM will read some GBMV parameters, if the "GBMV" was not called before, the OpenMM
+will not run the CUDA-GBMV calculations. Please see the input provided in this example
+
+
 ## Reference
 
 [GBSW website]: https://www.charmm.org/charmm/documentation/by-version/c40b1/params/doc/gbsw/
 
-[GBMV2/SA website]: https://www.charmm.org/charmm/documentation/by-version/c40b1/params/doc/gbmv/ 
+[GBMV2/SA website]: https://www.charmm.org/charmm/documentation/by-version/c40b1/params/doc/gbmv/
 
 [GBMV2/SA optimizing paper]: https://onlinelibrary.wiley.com/doi/full/10.1002/jcc.24734
 
 [GPU-GBMV2/SA paper]: https://onlinelibrary.wiley.com/doi/full/10.1002/jcc.26133
 
+## Acknowledgement
 
-
-
-
+We thanked the Zhuang Liu and Qiang Cui (QC) who gave us feedback on the CUDA-GBMV calculations.
 

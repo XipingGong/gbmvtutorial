@@ -5,15 +5,11 @@ if @?pdbid  eq 0  set pdbid  = 3gb1
 if @?segid  eq 0  set segid  = PRO0
 if @?openmm eq 0  set openmm = 1
 if @?gb     eq 0  set gb     = gbmv
-if @?gamma  eq 0  set gamma  = 0.005
-if @?NPHI   eq 0  set NPHI   = 26
-if @?CUTNUM eq 0  set CUTNUM = 50
-if @?nstep  eq 0  set nstep  = 1000 
-if @?KAPPA  eq 0  set KAPPA  = 0.0
+if @?nstep  eq 0  set nstep  = 1000
 
 ! Optimized GBMV2/SA force fields (K. Lee and J. Chen, JCC, 2017)
 ! ------------------------------------------------------------------
-if @?TOPFilename eq 0 set TOPFilename  = top_all36_prot_wation.rtf  
+if @?TOPFilename eq 0 set TOPFilename  = top_all36_prot_wation.rtf
 if @?PARFilename eq 0 set PARFilename  = par_all36_prot_gbmvop.prm
 if @?GBRAdiiname eq 0 set GBRAdiiname  = radii_c36gbmvop.str
 
@@ -30,7 +26,7 @@ close unit 10
 !---------------------------------------------------------------
 open read card unit 10 name @{pdbid}.pdb
 read sequence pdb unit 10
-generate @segid setup 
+generate @segid setup
 read coordinate pdb unit 10 resid
 close unit 10
 
@@ -45,32 +41,32 @@ set wmain radii
 stream @GBRAdiiname
 ! setup the input radii for GBMV calculations.
 if gb eq gbmv  then
-  GBMV BETA -12  P3 0.65 WATR 1.4  SHIFT -0.102 SLOPE 0.9085  P6 8 SA @gamma -
-       WTYP 2 NPHI @NPHI CUTNUM @CUTNUM KAPPA @KAPPA weight  
-  ! parameter descriptions: 
+  GBMV BETA -12  P3 0.65 WATR 1.4  SHIFT -0.102 SLOPE 0.9085  P6 8 SA 0.005 -
+       WTYP 2 NPHI 26 CUTNUM 50 KAPPA 0.0 weight
+  ! parameter descriptions:
   ! https://www.charmm.org/charmm/documentation/by-version/c40b1/params/doc/gbmv/
   ! Notes:
   ! 1) CUTNUM (integer; recommend value >= 50; default value = 50)
-  ! This value describes the cutoff length of lookup table array at each grid point, 
-  ! the larger the value is, the larger the size (computational memory) of lookup table array is, 
+  ! This value describes the cutoff length of lookup table array at each grid point,
+  ! the larger the value is, the larger the size (computational memory) of lookup table array is,
   ! but there is a little effect on the computational cost.
   ! 2) KAPPA (positive real; default value = 0)
   ! This value has the inverse meaning as that of GBSW parameter.
 endif
 if gb eq gbmf  then
-  GBMV BETA -12  P3 0.65 WATR 1.4  SHIFT -0.102 SLOPE 0.9085  P6 8 SA @gamma -
-       WTYP 2 NPHI @NPHI weight - 
+  GBMV BETA -12  P3 0.65 WATR 1.4  SHIFT -0.102 SLOPE 0.9085  P6 8 SA 0.005 -
+       WTYP 2 NPHI 26 weight -
        FAST 1 SGBFRQ 4 SXD 0.3
 endif
 
-! OPENMM
+! OPENMM (it must be after GBMV setting)
 !---------------------------------------------------------------
 if openmm eq 1 then
    set platform = CUDA
    omm platform @platform precision single deviceid 0
    omm on
 endif
-   
+
 ! Energy calculation and print out the molecular forces
 !---------------------------------------------------------------
 energy
@@ -86,6 +82,6 @@ dynamics leap start timestep 0.001 nstep @nstep -
          iunread -1  iunwri -1  iuncrd -20   iunvelo -1  -
          nsavc 100   nsavv 0     iasvel 1 -
          tstruct 300 firstt 300  FINALT 300
-      
+
 STOP
 
