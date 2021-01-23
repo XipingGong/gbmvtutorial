@@ -7,3 +7,6 @@ can run the GBMV implicit solvent simulations with CHARMM package.
 ## ex1
 This includes how to run the GBMV2 energies, forces and NVE dynamics.
 
+## ex2
+This includes how to run the GBMV2-REMD simulation using MMTSB toolset
+

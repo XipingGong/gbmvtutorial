@@ -1,0 +1,9 @@
+
+open unit 10 read form name top_all36_prot_wation.rtf
+read rtf card unit 10
+close unit 10
+
+open unit 10 read form name par_all36_prot_gbmvop.prm
+read para card unit 10
+close unit 10
+

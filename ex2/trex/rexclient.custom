@@ -1,0 +1,25 @@
+#CUSTOM setup
+
+! NonBond 
+! ------------------------------------------------------------------
+NBOND atom switch cdie vdw vswitch -
+      ctonnb 16.0 ctofnb 18.0 cutnb 20.0
+
+! GBMV implicit solvent model 
+! ------------------------------------------------------------------
+scalar wmain = radii
+set GBRAdiiname  = radii_c36gbmvop.str
+stream @GBRAdiiname
+GBMV BETA -12  P3 0.65 WATR 1.4  SHIFT -0.102 SLOPE 0.9085  P6 8 SA 0.005 -
+     WTYP 2 nphi 50 KAPPA 0.0 weight
+
+! Harmonic restrict to avoid protein moving alway
+! -------------------------------------------------------------------
+cons harm clear
+cons harm force 1.0 sele segid AT .and. resid 1 .and. type CA end  ! AT is the segment ID
+
+shake  tolerance 1.0e-06 bonh param
+energy
+omm platform cuda
+energy omm
+

@@ -1,0 +1,20 @@
+# rexclient options file
+# automatically generated on: Fri Jan 22 21:10:27 2021
+opt conslim 0
+opt limforce 1
+opt limsel cab
+opt restout 1
+opt trajout 0
+par cut 0
+par cutnb 20
+par cutoff 18
+par cuton 16
+par dyneqfrq 50
+par dynsteps 1000
+par dyntstep 0.002
+par gb 0
+par lang 1
+par langfbeta 0.1
+par param tpstr
+par shake 1
+par tpstr toppar.str

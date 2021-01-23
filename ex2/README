@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# goal: run the temperature/MSES simulations
+
+# clean
+rm -r trex job*
+exit
+
+# T-REMD: (AAQAA)3
+# T = 269 - 363 K, refer to Shalongo et al, 1994, JACS
+# 8 replicas
+#
+hostlist: specify nodes
+node013  4 --> nodename (ssh node013 can work), 4 gpus; it means 1 gpu/replica
+
+toppar.str: topology files of AT systems
+
+setup.str: some GBMV2/SA simulation parameters
+
+run.sh: submit a job using slurm
+# sbatch run.sh
+
+# Reference
+1. http://feig.bch.msu.edu/mmtsb/Main_Page
+In this link, you can obtain any resource, run simulations and analysis.
+
+2. before running simulation, install the MMTSB tool sets
+download link: https://github.com/mmtsb/toolset
+
