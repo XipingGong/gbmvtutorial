@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# goal: run the temperature/MSES simulations
+# goal: run the temperature-REMD simulations
 
 # clean
 rm -r trex job*
@@ -9,16 +9,34 @@ exit
 # T-REMD: (AAQAA)3
 # T = 269 - 363 K, refer to Shalongo et al, 1994, JACS
 # 8 replicas
-#
+The trex folder is a result the result of (AAQAA)3 system,
+we used the 2ps/exchange, 100 ps/replica, 8 replicas form 269 - 363 K, each replica used one gpu.
+
+# files
+aaqaa3atctrl.crd
+aaqaa3atctrl.pdb
+aaqaa3atctrl.psf
+pdb, crd, psf files of (AAQAA)3
+
 hostlist: specify nodes
 node013  4 --> nodename (ssh node013 can work), 4 gpus; it means 1 gpu/replica
+
+job*.err, job*.log
+error and log file after using a slurm system
+
+par_all36_prot_gbmvop.prm
+top_all36_prot_wation.rtf
+CHARMM parameter and topology files
+
+radii_c36gbmvop.str
+optimized GB input radii 
 
 toppar.str: topology files of AT systems
 
 setup.str: some GBMV2/SA simulation parameters
 
-run.sh: submit a job using slurm
-# sbatch run.sh
+run.sh: submit a job using slurm (main function)
+# sbatch run.sh 
 
 # Reference
 1. http://feig.bch.msu.edu/mmtsb/Main_Page
@@ -26,4 +44,3 @@ In this link, you can obtain any resource, run simulations and analysis.
 
 2. before running simulation, install the MMTSB tool sets
 download link: https://github.com/mmtsb/toolset
-
