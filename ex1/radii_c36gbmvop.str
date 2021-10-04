@@ -1,15 +1,15 @@
-!! GBMV input radii for using optimized c36/gbmv 
+!! GBMV input radii for using optimized c36/gbmv
 !!
 !!
 !! Lee and Chen. 2017. Journal of Computational Chemistry 38(16): 1332–41.
 !!
 !!
-!! The optimization strategies 
+!! The optimization strategies
 !! 1. PMF guided optimization of input radii for charged residues
 !!    (start from gbmv_cjh2.str)
 !! 2. Adjusted CAMP to balance the secondary structure
 !! 3. Generating ensembles of GB hairpins and (AAQAA)3 to ensure the optimization
-!! 
+!!
 !!
 
 !!! default: charmm vdw radii
@@ -46,7 +46,7 @@ if @?porad eq 0     set porad = 1.70     ! O: VDW = 1.7   NINA = 1.49
 
 ! backbone
 if @?bo  eq 0       set bo    = 1.65     ! O: VDW = 1.7
-if @?bn  eq 0       set bn    = 1.77     ! N: VDW = 1.85
+if @?bn  eq 0       set bn    = 1.80     ! N: VDW = 1.85
 if @?bc  eq 0       set bc    = 2.05     ! C: VDW = 2.06
 
 !!! atomic radii modifications
@@ -56,8 +56,8 @@ scalar wmain set @edo select type OE* .and. resn GLU end
 scalar wmain set @qno sele (resn ASN .or. resn GLN) .and. (type OE* .or. type OD*) end
 
 !nitrogen
-scalar wmain set @rnh sele resn ARG .and. type NH* end 
-scalar wmain set @rne sele resn ARG .and. type NE end 
+scalar wmain set @rnh sele resn ARG .and. type NH* end
+scalar wmain set @rne sele resn ARG .and. type NE end
 scalar wmain set @kn sele resn LYS .and. type NZ end
 scalar wmain set @hspn sele resn HSP  .and. (type NE2 .or. type ND1) end
 scalar wmain set @hsdne sele ( resn HSD .or. resn HIS ) .and. type NE2 end
@@ -65,7 +65,7 @@ scalar wmain set @hsdnd sele ( resn HSD .or. resn HIS ) .and. type ND1 end
 scalar wmain set @qnn sele (resn GLN .and. type NE2) end
 
 !carbon
-scalar wmain set @ecd sele resn GLU .and. type CD end 
+scalar wmain set @ecd sele resn GLU .and. type CD end
 scalar wmain set @rcz sele (resn ARG .and. type CZ) end
 scalar wmain set @kce sele (resn LYS .and. type CE) end
 scalar wmain set @ecd sele (resn GLN .and. type CD) end
@@ -81,13 +81,11 @@ scalar wmain set @prad  sele (resn serp .and. type p ) end
 scalar wmain set @porad sele (resn serp .and. (type o1p .or. type o2p .or. type o3p )) end
 
 !Backbone
-scalar wmain set @bo  sele type O  end
-scalar wmain set @bn  sele type N  end  
+scalar wmain set @bo  sele type O .or. type OY end ! C-, N-terminal
+scalar wmain set @bn  sele type N .or. type NT end !
 
 !scalar wmain show
 
-
-!!! Note: the following GBMV parameters are used for this C36/GBMVOP force field.
 !!! GBMV setup
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! GBMV SHIFT -0.102 SLOPE 0.9085 P6 8 SA 0.005 WATR 1.4 beta -12 weight
